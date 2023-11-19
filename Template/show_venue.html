@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+</center>
+<p><strong>Show Venue</strong>  </p>
+<ul>
+
+
+
+<div class="card">
+    <div class="card-header">
+        <strong>Venue</strong>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Venue: {{ venue}}
+      </h5>
+      <p class="card-text">
+            {{ venue.name }}<br>
+            {{ venue.address }}<br>
+            {{ venue.zip_code }}<br>
+            {{ venue.phone }}<br>
+            <a href="{% url 'show_venue' venue.id %}">{{venue.web}} </a></br>
+            {{ venue.email_address }}
+        
+    </div>
+  </div>
+
+{% endblock %}
