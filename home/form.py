@@ -1,6 +1,27 @@
 from  django import forms
 from django.forms import ModelForm
 from .models import Venue,Event
+class EventFormAdmin(ModelForm):
+    class Meta:
+        model=Event
+        fields=('name','event_data','venue','attendees','description')
+        labels={
+            'name':'',
+            'event_data':'',
+            'venue':'Venue',
+            'attendees':'Attendees',
+            'description':'',
+        }
+        widgets={
+            'name': forms.TextInput(attrs={'class':'form-control','placeholder':'Event Name'}),
+            'event_data':forms.TextInput(attrs={'class':'form-control','placeholder':'Event date'}),
+            'venue':forms.Select(attrs={'class':'form-select','placeholder':'Venue'}),
+            'attendees':forms.SelectMultiple(attrs={'class':'form-control','placeholder':'Attendees'}),
+            'description':forms.Textarea(attrs={'class':'form-control','placeholder':'Description'})
+            
+        }
+        
+        
 class EventForm(ModelForm):
     class Meta:
         model=Event

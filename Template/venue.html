@@ -8,10 +8,12 @@
 <tr><td>
 <a href=" {% url 'show_venue' venue.id %} ">{{ venue }}</a> 
 </td>
+{% if user.is_authenticated %}
 <td align="right">
+   
    <a href="{% url 'update_venue' venue.id %}" class="btn btn-outline-secondary btn-sm" >Update venue</a>
    <a href="{% url 'delete_venue' venue.id %}" class="btn btn-outline-danger btn-sm" >Delete veneu</a>
-</td>
+</td>{% endif %}
 </tr>
 {% endfor %}
 </table>
@@ -25,7 +27,7 @@
 
 
 {% for i in nums %}
-<li class="page-item"><a class="page-link" href=" {{ forloop.counter }}">{{ forloop.counter }}</a></li>
+<li class="page-item"><a class="page-link" href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
 
 {% endfor %}
 {% if venues.has_next %}</li>
