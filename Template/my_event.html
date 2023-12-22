@@ -2,18 +2,9 @@
 
 {% block content %}
 <center>
-<p> Hello {{ user }}</p>
-<br/>
-
-
-{{ cal|safe }}
-{{ current_year }}
-{{ time }}
-</center>
-<br>
-<h3> Event This Month... </h3>
-{% if event_list %}
-    {% for event in event_list  %}
+<h2> <strong>My Event </strong> </h2>
+</center><br>
+    {% for event in events %}
     <div class="card">
         <div class="card-header">
             <strong>{{ event }}</strong>
@@ -44,10 +35,5 @@
             {% endif %}
         {% endif %}
       </div><br>
-      {% endfor %}    
-{% else %}
-Sorry... There are no events this month ...
-{% endif %}
-
-
+    {% endfor  %}
 {% endblock %}

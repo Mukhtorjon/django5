@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 
 
@@ -17,13 +17,18 @@
       <h5 class="card-title">Venue: {{ venue}}
       </h5>
       <p class="card-text">
-            {{ venue.name }}<br>
-            {{ venue.address }}<br>
-            {{ venue.zip_code }}<br>
-            {{ venue.phone }}<br>
-            <a href="{% url 'show_venue' venue.id %}">{{venue.web}} </a></br>
-            {{ venue.email_address }}
-        
+        <ul>
+           <li>{{ venue.name }}</li>
+           <li>{{ venue.address }}</li>
+           <li>{{ venue.zip_code }}</li>
+            <li>{{ venue.phone }}</li>
+            <li>{{ venue.email_address }}</li>
+            <li><a href="{% url 'show_venue' venue.id %}">{{venue.web}} </a></li>
+            <li> Owner: {{ venue_owner.email }}</li>
+          </ul><br>
+          {% if venue.venue_image %}
+          <img src= "{{ venue.venue_image.url }}" width="200">
+          {% endif %}
     </div>
   </div>
 

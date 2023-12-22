@@ -8,6 +8,7 @@ urlpatterns = [
     path('venue',views.add_venue,name='add_venue'),
     path('list_venue',views.list_venues,name='list_venue'),
     path('show_venue/<venue_id>',views.show_venue,name='show_venue'),
+    path('search_event',views.search_event,name='search_event'),
     path('search',views.search_venue,name='search'),
     path('update_venue/<venue_id>',views.update_venue,name='update_venue'),
     path('delete_venue/<venue_id>',views.delete_venue,name='delete_venue'),
@@ -17,5 +18,6 @@ urlpatterns = [
     path('venue_csv',views.venue_csv,name='venue_csv'),
     path('venue_pdf',views.venue_pdf,name='venue_pdf'),
     path('venue_txt',views.venue_txt,name='venue_txt'),
+    path('my_event',views.my_event,name='my_event'),
 
 ]

@@ -7,6 +7,7 @@ from .form import VenueForm,EventForm,EventFormAdmin
 from django.http import HttpResponseRedirect
 from django.http import HttpResponse
 import csv
+from django.contrib.auth.models import User
 from django.http import FileResponse
 import io
 from reportlab.pdfgen import canvas
@@ -14,7 +15,27 @@ from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
 from django.core.paginator import Paginator
 from django.contrib import messages
-# Generate Pdf File Venue List
+
+def search_event(request):
+    if request.method=="POST":
+        searched=request.POST['searched']
+        events=Event.objects.filter(name__contains=searched)
+        
+        return render(request,'search_event.html',{'searched':searched,'events':events})
+    else:
+        return render(request,'search_event.html',{})
+
+# My events
+def my_event(request):
+    if request.user.is_authenticated:
+        me=request.user.id
+        events=Event.objects.filter(attendees=me)
+        return render(request,'my_event.html',{'events':events })
+    else:
+        messages.success(request,("You aren't Authorized To View This Page! "))
+        return redirect("home")
+
+
 def venue_pdf(request):
     venues=Venue.objects.all()
     buf=io.BytesIO()
@@ -124,7 +145,7 @@ def delete_event(request,event_id):
 
 def update_venue(request, venue_id):
     venue=Venue.objects.get(pk=venue_id)
-    form=VenueForm(request.POST or None, instance=venue)
+    form=VenueForm(request.POST or None, request.FILES or None, instance=venue)
     if form.is_valid():
         form.save()
         return redirect("list_venue")
@@ -147,7 +168,8 @@ def search_venue(request):
 
 def show_venue(request,venue_id):
     venue=Venue.objects.get(pk=venue_id)
-    return render(request,'show_venue.html',{'venue':venue} )
+    venue_owner=User.objects.get(pk=venue.owner)
+    return render(request,'show_venue.html',{'venue':venue,'venue_owner':venue_owner} )
 
 
 def list_venues(request):
@@ -163,7 +185,7 @@ def list_venues(request):
 def add_venue(request):
     submitted=False
     if request.method=="POST":
-         form=VenueForm(request.POST)
+         form=VenueForm(request.POST,request.FILES)
          if form.is_valid():
              venue=form.save(commit=False)
              venue.owner=request.user.id
@@ -189,10 +211,15 @@ def home (request,year=datetime.now().year, month=datetime.now().strftime('%B'))
     cal=HTMLCalendar().formatmonth(year,month_number)
     now=datetime.now()
     current_year=now.year
+    event_list=Event.objects.filter(
+        event_data__year=year,
+        event_data__month=month_number
+    )
     time=now.strftime('%I:%M:%p')
     return render(request,'home.html',
                   {'name':name,
                    'cal':cal,
                    'current_year':current_year,
-                   'time':time
-                   })
+                   'time':time,
+                   'event_list':event_list,
+                   }) 
