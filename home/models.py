@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date
 # Create your models here.
 class Venue(models.Model):
     name=models.CharField('Venue Name',max_length=120)
@@ -29,3 +30,17 @@ class Event(models.Model):
     attendees=models.ManyToManyField(MyClubUser,blank=True)
     def __str__(self):
         return self.name
+    @property
+    def Days_till(self):
+        today=date.today()
+        days_till=self.event_data.date()-today
+        days_till_stripped=str(days_till).split(',',1)[0]
+        return days_till_stripped
+    @property
+    def Is_Past(self):
+        today=date.today()
+        if self.event_data.date()<today:
+            thing="Past"
+        else:
+            thing="Future"
+        return thing
