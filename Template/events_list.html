@@ -4,7 +4,7 @@
 <p><strong>Event</strong>  </p>
 
 {% for event in event_list %}
-
+{% if event.aprroved %}
 
 <div class="card">
     <div class="card-header">
@@ -20,7 +20,8 @@
         <li>Days Till Event: {{ event.Days_till }} </li>
         <li> Occured: {{ event.Is_Past }}</li>
         <li>Manager: {{ event.manager }} </li>
-        <li> {{ event.description }} </li>
+        <li> Description {{ event.description }} </li>
+        <li> Aprroved {{ event.aprroved}} </li>
         <li>Attendees: <br>
             {% for user in event.attendees.all %}
             {{ user }}<br>
@@ -38,5 +39,7 @@
         {% endif %}
     {% endif %}
   </div><br>
+  {% endif %}
+
   {% endfor %}    
 {% endblock %}

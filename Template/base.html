@@ -33,6 +33,9 @@
                   <li><a class="dropdown-item" href="{% url 'add_event' %}">Add Event </a></li> 
                   <li><a class="dropdown-item" href="{% url 'my_event' %}">My Event </a></li>
                   <li><a class="dropdown-item" href="{% url 'search_event' %}">Search Event </a></li>
+                  {% if user.is_superuser %}
+                  <li><a class="dropdown-item" href="{% url 'admin_aprroval' %}">Admin </a></li>
+                  {% endif %}
                   {% endif %}
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="{% url 'venue_csv' %}">Venue CSV File</a></li>

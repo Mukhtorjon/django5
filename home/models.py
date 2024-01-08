@@ -28,6 +28,7 @@ class Event(models.Model):
     manager=models.ForeignKey(User,blank=True,null=True,on_delete=models.SET_NULL)
     description=models.TextField(blank=True)
     attendees=models.ManyToManyField(MyClubUser,blank=True)
+    aprroved=models.BooleanField("Aprroved",default=False)
     def __str__(self):
         return self.name
     @property

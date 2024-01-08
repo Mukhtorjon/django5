@@ -16,6 +16,29 @@ from reportlab.lib.pagesizes import letter
 from django.core.paginator import Paginator
 from django.contrib import messages
 
+def admin_aprroved(request):
+    # Get count
+    event_count=Event.objects.all().count()
+    venue_count=Venue.objects.all().count()
+    user_count=User.objects.all().count()
+    
+    event_list=Event.objects.all().order_by( '-event_data' )
+    if request.user.is_superuser:
+        if request.method=="POST":
+            id_list=request.POST.getlist('boxes')
+            event_list.update(aprroved=False)
+            for i in id_list:
+                Event.objects.filter(pk=int(i)).update(aprroved=True)
+            messages.success(request,("Event List Approval Has Been Updated!"))
+            return redirect('events_list')
+            
+        else:
+            return render(request,'admin_aprroval.html',{'event_list':event_list,'event_count':event_count,'venue_count':venue_count,'user_count':user_count})
+    else:
+        messages.success(request,("You aren't autherized to view this page!"))
+        return redirect('home')
+    
+
 def search_event(request):
     if request.method=="POST":
         searched=request.POST['searched']
