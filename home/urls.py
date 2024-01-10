@@ -20,5 +20,7 @@ urlpatterns = [
     path('venue_txt',views.venue_txt,name='venue_txt'),
     path('my_event',views.my_event,name='my_event'),
     path('admin_aprroval',views.admin_aprroved,name='admin_aprroval'),
+    path('venue_events/<venue_id>',views.venue_event,name='venue_events'),
+    path('show_event/<event_id>',views.show_events,name='show_event'),
 
 ]
